@@ -23,7 +23,7 @@ var stripes = [light, 0, light, light, 0, light, 0, light, light, 0, light, 0];
 function setup() {
   createCanvas(windowWidth < 1000 ? windowWidth : 1000, 200);
   cursor(CROSS);
-  wave = new p5.Oscillator(0, 'triangle');
+  wave = new p5.TriOsc();
   wave.amp(0);
   wave.start();
   noteWidth = width / numNotes;
@@ -80,11 +80,11 @@ function keyReleased() {
     var waveType = waveMap[key];
     if (waveType !== undefined) {
       wave.stop();
-      wave = new waveType(0);
-      wave.amp(0);
+      wave = new waveType();
       if (key === '5') {
         wave.width(0.25);
       }
+      wave.amp(0);
       wave.start();
     }
     break;
