@@ -1,13 +1,15 @@
 var wave;
 var note;
 var frequency;
+var volume;
 var noteWidth;
 
 var waveMap = {
-  '1': 'sine',
-  '2': 'triangle',
-  '3': 'saw',
-  '4': 'square'
+  '1': p5.SinOsc,
+  '2': p5.TriOsc,
+  '3': p5.SawOsc,
+  '4': p5.SqrOsc,
+  '5': p5.Pulse
 };
 
 var numNotes = 88;
@@ -40,7 +42,8 @@ function draw() {
     }
     frequency = pow(2.0, (note - 49.0) / 12.0) * 440.0;
     wave.freq(frequency);
-    wave.amp(map(mouseY, 0.0, height, 1.0, 0.0));
+    volume = map(mouseY, 0.0, height, 1.0, 0.0)
+    wave.amp(volume);
   }
   for (i = 0; i < numNotes; i += 1) {
     fill(stripes[i % 12]);
@@ -76,7 +79,13 @@ function keyReleased() {
   default:
     var waveType = waveMap[key];
     if (waveType !== undefined) {
-      wave.setType(waveType);
+      wave.stop();
+      wave = new waveType(0);
+      wave.amp(0);
+      if (key === '5') {
+        wave.width(0.25);
+      }
+      wave.start();
     }
     break;
   }
