@@ -101,7 +101,7 @@ function keyPressed() {
     if (octave > 38) {
       octave = 38;
     }
-  } else if (keyCode === 0xBD) { //'-'
+  } else if (keyCode === 0xBD) { // '-'
     octave -= 1;
     if (octave < 0) {
       octave = 0;
@@ -141,7 +141,7 @@ function mouseMoved() {
   currentAmp = constrain(map(mouseX, 0.0, width, 0.0, 1.0), 0, 1);
   bgColor = Math.floor(map(currentAmp, 0, 1, 0, 64));
   if (active) {
-    wave.amp(currentAmp);
+    wave.amp(currentAmp, 0.01);
   }
 }
 

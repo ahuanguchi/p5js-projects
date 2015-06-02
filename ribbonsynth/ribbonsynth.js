@@ -41,9 +41,9 @@ function draw() {
       note += 12.0;
     }
     frequency = pow(2.0, (note - 49.0) / 12.0) * 440.0;
-    wave.freq(frequency);
+    wave.freq(frequency, quantize ? 0 : 0.02);
     volume = map(mouseY, 0.0, height, 1.0, 0.0)
-    wave.amp(volume);
+    wave.amp(volume, 0.01);
   }
   for (i = 0; i < numNotes; i += 1) {
     fill(stripes[i % 12]);
