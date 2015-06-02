@@ -70,14 +70,13 @@ function setup() {
 function draw() {
   var i;
   var waveform = fft.waveform();
-  var len = waveform.length;
+  var len = waveform.length / 2;
   background(bgColor);
-  beginShape();
   stroke(127);
+  beginShape();
   for (i = 0; i < len; i += 1) {
-    var x = map(i, 0, len, 0, width);
     var y = map(waveform[i], -1, 1, 0, height);
-    vertex(x, y);
+    vertex(i, y);
   }
   endShape();
   
@@ -132,7 +131,7 @@ function keyReleased() {
       wave.stop();
       wave = new WaveType(currentFreq);
       if (key === '5') {
-        wave.width(0.25);
+        wave.width(0.125);
       }
       if (active) {
         wave.amp(currentAmp);

@@ -82,7 +82,7 @@ function keyReleased() {
       wave.stop();
       wave = new WaveType();
       if (key === '5') {
-        wave.width(0.25);
+        wave.width(0.125);
       }
       wave.amp(0);
       wave.start();
