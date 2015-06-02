@@ -77,10 +77,10 @@ function keyReleased() {
     quantize = !quantize;
     break;
   default:
-    var waveType = waveMap[key];
-    if (waveType !== undefined) {
+    var WaveType = waveMap[key];
+    if (WaveType !== undefined) {
       wave.stop();
-      wave = new waveType();
+      wave = new WaveType();
       if (key === '5') {
         wave.width(0.25);
       }
