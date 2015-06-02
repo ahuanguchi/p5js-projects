@@ -2,6 +2,7 @@ var wave;
 var fft;
 var currentFreq;
 var currentKey;
+var bgColor;
 
 var noteMap = {
   'Z': 4,
@@ -47,7 +48,6 @@ var octave = 4;
 var currentAmp = 0.6;
 var active = false;
 var normalOctave = true;
-var bgColor;
 
 function setup() {
   createCanvas(512, 200);
@@ -55,16 +55,17 @@ function setup() {
   strokeWeight(1);
   noFill();
   bgColor = floor(map(currentAmp, 0, 1, 0, 64));
-  wave = new p5.TriOsc();
+  
+  waveMap[LEFT_ARROW] = new p5.SinOsc();
+  waveMap[DOWN_ARROW] = new p5.TriOsc();
+  waveMap[RIGHT_ARROW] = new p5.SawOsc();
+  waveMap[UP_ARROW] = new p5.SqrOsc();
+  waveMap[SHIFT] = new p5.Pulse();
+  
+  wave = waveMap[DOWN_ARROW];
   wave.amp(0);
   wave.start();
   fft = new p5.FFT();
-  
-  waveMap[LEFT_ARROW] = p5.SinOsc;
-  waveMap[DOWN_ARROW] = p5.TriOsc;
-  waveMap[RIGHT_ARROW] = p5.SawOsc;
-  waveMap[UP_ARROW] = p5.SqrOsc;
-  waveMap[SHIFT] = p5.Pulse;
 }
 
 function draw() {
@@ -83,10 +84,6 @@ function draw() {
   stroke(255);
   text("Hz: " + currentFreq, 5, 15);
   text("Octave: " + octave, 5, 30);
-  text("Press z-/ and q-] to play notes (z and q are C). Accidentals are on the row above.", 5, height - 55);
-  text("Press + and - to change octaves. Hold \\ to toggle octaves mid-note.", 5, height - 40);
-  text("Move your mouse to control the volume (right is louder).", 5, height - 25);
-  text("Use the arrow keyse and shift to pick a waveform.", 5, height - 10);
 }
 
 function keyPressed() {
@@ -129,10 +126,8 @@ function keyReleased() {
     var WaveType = waveMap[keyCode];
     if (WaveType !== undefined) {
       wave.stop();
-      wave = new WaveType(currentFreq);
-      if (key === '5') {
-        wave.width(0.125);
-      }
+      wave = WaveType;
+      wave.freq(currentFreq);
       if (active) {
         wave.amp(currentAmp);
       } else {

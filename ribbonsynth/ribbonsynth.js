@@ -4,13 +4,7 @@ var frequency;
 var volume;
 var noteWidth;
 
-var waveMap = {
-  '1': p5.SinOsc,
-  '2': p5.TriOsc,
-  '3': p5.SawOsc,
-  '4': p5.SqrOsc,
-  '5': p5.Pulse
-};
+var waveMap = {};
 
 var numNotes = 88;
 var quantize = true;
@@ -23,7 +17,14 @@ var stripes = [light, 0, light, light, 0, light, 0, light, light, 0, light, 0];
 function setup() {
   createCanvas(windowWidth < 1000 ? windowWidth : 1000, 200);
   cursor(CROSS);
-  wave = new p5.TriOsc();
+  
+  waveMap['1'] = new p5.SinOsc();
+  waveMap['2'] = new p5.TriOsc();
+  waveMap['3'] = new p5.SawOsc();
+  waveMap['4'] = new p5.SqrOsc();
+  waveMap['5'] = new p5.Pulse();
+  
+  wave = waveMap['2'];
   wave.amp(0);
   wave.start();
   noteWidth = width / numNotes;
@@ -41,7 +42,7 @@ function draw() {
       note += 12.0;
     }
     frequency = pow(2.0, (note - 49.0) / 12.0) * 440.0;
-    wave.freq(frequency, quantize ? 0 : 0.02);
+    wave.freq(frequency, quantize ? 0 : 0.015);
     volume = map(mouseY, 0.0, height, 1.0, 0.0)
     wave.amp(volume, 0.01);
   }
@@ -80,11 +81,13 @@ function keyReleased() {
     var WaveType = waveMap[key];
     if (WaveType !== undefined) {
       wave.stop();
-      wave = new WaveType();
-      if (key === '5') {
-        wave.width(0.125);
+      wave = WaveType;
+      wave.freq(frequency);
+      if (active) {
+        wave.amp(volume);
+      } else {
+        wave.amp(0);
       }
-      wave.amp(0);
       wave.start();
     }
     break;
