@@ -61,7 +61,7 @@ function setup() {
   waveMap[UP_ARROW] = new p5.SqrOsc();
   waveMap[SHIFT] = new p5.Pulse();
   
-  wave = waveMap[DOWN_ARROW];
+  wave = waveMap[UP_ARROW];
   wave.amp(0);
   wave.start();
   fft = new p5.FFT();
