@@ -52,7 +52,6 @@ var normalOctave = true;
 function setup() {
   createCanvas(512, 200);
   cursor(CROSS);
-  strokeWeight(1);
   noFill();
   bgColor = floor(map(currentAmp, 0, 1, 0, 64));
   
